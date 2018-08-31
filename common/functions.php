@@ -152,7 +152,7 @@ function curl_info ($url, $timeout = 20, $cookie = array(), $referer = '', $user
     $response = curl_exec($ci);
     $info = curl_getinfo($ci);
     curl_close ($ci);
-    return [
+    return array(
         'url'                => $info['url'],
         'total_time'         => $info['total_time'],
         'http_code'          => $info['http_code'],
@@ -160,7 +160,7 @@ function curl_info ($url, $timeout = 20, $cookie = array(), $referer = '', $user
         'starttransfer_time' => $info['starttransfer_time'],
         'namelookup_time'    => $info['namelookup_time'],
         'speed_download'     => $info['speed_download'],
-    ];
+    );
 }
 
 
