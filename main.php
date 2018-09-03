@@ -30,9 +30,7 @@ printLog('------------------------------- 脚本初始化完成 ! --------------
 printLog("此客户端ID： {$union_id}");
 printLog('正在上报客户端信息... ');
 $data = array(
-    'name' => $config['client_name'],
-    'union_id' => $union_id,
-    'pri_key' => $config['pri_key']
+    'union_id' => $union_id
 );
 $ret = $ret_old = curl('http://jk.thesnowtop.com:7001/api/client/add.html', 'post', $data);
 $ret = json_decode($ret, true);
@@ -50,7 +48,7 @@ if (!$ret) {
     exit;
 }
 
-printLog("\033[32m上报完成，结果 => 成功  ^_^\033[0m");
+printLog("\033[32m上报完成，结果 => 成功  ^_^  请尽快去网页端认领客户端 \033[0m");
 unset($ret);
 
 $counter = 0;
@@ -106,7 +104,6 @@ while (true) {
             }
         }
         $data['task_id'] = $task['task_id'];
-        $data['pri_key'] = $config['pri_key'];
         $data['union_id'] = $union_id;
         $data['info'] = $info;
         $ret = $ret_old = curl('http://jk.thesnowtop.com:7001/api/client/feedback.html', 'POST', $data);
