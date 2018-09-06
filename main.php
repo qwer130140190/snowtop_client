@@ -85,15 +85,29 @@ while (true) {
         } else if (1 == $task['type']) {
             printLog("|    正在检测 [dns]  {$task['url']}");
             $info = cmd_dig($config['dig_path'], $task['url']);
-            printLog("|    query_time :   {$info['dns_time']} ms");
-            foreach ($info['dns_server'] as $server) {
-                printLog("|    {$server[0]}    {$server[1]}    {$server[2]}");
+            if ($info) {
+                printLog("|    query_time :   {$info['dns_time']} ms");
+                foreach ($info['dns_server'] as $server) {
+                    printLog("|    {$server[0]}    {$server[1]}    {$server[2]}");
+                }
+                $info['dns_server'] = json_encode($info['dns_server']);
+            } else {
+                printLog("检测失败");
+                $info['dns_time'] = 0;
+                $info['dns_server'] = '';
             }
-            $info['dns_server'] = json_encode($info['dns_server']);
+
         } else if (2 == $task['type']) {
             printLog("|    正在检测 [ping]  {$task['url']}");
             $info = cmd_ping($config['ping_path'], $task['url']);
             if (false == $info) {
+                $info = [
+                    'min' => 0,
+                    'avg' => 0,
+                    'max' => 0,
+                    'mdev' => 0,
+                    'ttl' => 0
+                ];
                 printLog("|    \033[37mping 失败\033[0m");
             } else {
                 printLog("|    min :           {$info['ping_min']} ms");
