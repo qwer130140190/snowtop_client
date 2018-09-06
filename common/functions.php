@@ -7,6 +7,7 @@ function get_union_id () {
     if (!file_exists($file_path)) {
         $union_id = md5(uniqid());
         file_put_contents($file_path, $union_id);
+        return $union_id;
     } else {
         return file_get_contents($file_path);
     }
@@ -54,7 +55,6 @@ function curl ($url, $method = 'get', $params = array(), $multi = false) {
     return $response;
 }
 
-
 function cmd_dig ($dig_path, $address) {
     $data = array();
     $address = parse_url($address);
@@ -90,7 +90,6 @@ function cmd_dig ($dig_path, $address) {
     }
     return $data;
 }
-
 
 function cmd_ping($bin_path, $address, $count = 5) {
     $data = array();
@@ -162,8 +161,6 @@ function curl_info ($url, $timeout = 20, $cookie = array(), $referer = '', $user
         'speed_download'     => $info['speed_download'],
     );
 }
-
-
 
 function smart_sleep () {
     while (true) {
