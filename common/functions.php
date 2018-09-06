@@ -55,6 +55,7 @@ function curl ($url, $method = 'get', $params = array(), $multi = false) {
     return $response;
 }
 
+
 function cmd_dig ($dig_path, $address) {
     $data = array();
     $address = parse_url($address);
@@ -66,6 +67,7 @@ function cmd_dig ($dig_path, $address) {
 
     } elseif (strcasecmp(PHP_OS, 'Linux') === 0 || strcasecmp(PHP_OS, 'Darwin') === 0) {
         $digresult = exec("{$dig_path} {$address}", $output, $status);
+
         $flag = 0;
         $data['dns_server'] = array();
         foreach ($output as $key => $line) {
@@ -76,15 +78,18 @@ function cmd_dig ($dig_path, $address) {
                 $flag = 1;
                 continue;
             }
-            if ($flag == 1 && 0 === strpos($line, $address.'.')) {
+            if ($flag == 1) {
                 $line = str_replace(' ', "\t", $line);
                 $line = explode("\t", $line);
                 $line = array_values(array_filter($line));
-                $data['dns_server'][] = array(
-                    $line[1], //dns_expired
-                    $line[3], //dns_type
-                    substr($line[4], 0, -1) //dns_server
-                );
+                if (5 == count($line) && $line[0] == $address.'.') {
+                    $data['dns_server'][] = array(
+                        $line[1], //dns_expired
+                        $line[3], //dns_type
+                        substr($line[4], 0, -1) //dns_server
+                    );
+                }
+
             }
         }
     }
@@ -148,7 +153,7 @@ function curl_info ($url, $timeout = 20, $cookie = array(), $referer = '', $user
     if ($nobody) {
         curl_setopt($ci, CURLOPT_NOBODY, true);
     }
-    $response = curl_exec($ci);
+    $content = curl_exec($ci);
     $info = curl_getinfo($ci);
     curl_close ($ci);
     return array(
@@ -159,6 +164,7 @@ function curl_info ($url, $timeout = 20, $cookie = array(), $referer = '', $user
         'starttransfer_time' => $info['starttransfer_time'],
         'namelookup_time'    => $info['namelookup_time'],
         'speed_download'     => $info['speed_download'],
+        'content'            => $content
     );
 }
 
