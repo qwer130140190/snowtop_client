@@ -1,0 +1,6 @@
+  How to use in a Ubuntu system.
+  apt-get update; apt-get install git -y; apt-get install php-cli php-curl -y
+  git clone https://github.com/qwer130140190/snowtop_client.git
+  cd snowtop_client
+  php main.php
+  
