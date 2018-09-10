@@ -24,7 +24,18 @@ if ($local_time - $server_time > 1 || $server_time - $local_time > 1) {
 }
 
 //$Crypt = new Crypt($config['appkey'], $config['key']);
-$union_id = get_union_id();
+
+$file_path = dirname(__FILE__).'/union_id.txt';
+
+if (!file_exists($file_path)) {
+    $union_id = md5(uniqid());
+    $first_run = true;
+    file_put_contents($file_path, $union_id);
+} else {
+    $first_run = false;
+    $union_id =  file_get_contents($file_path);
+}
+
 echo "\r\n";
 printLog('------------------------------- 脚本初始化完成 ! -------------------------------');
 printLog("此客户端ID： {$union_id}");
@@ -48,7 +59,7 @@ if (!$ret) {
     exit;
 }
 
-printLog("\033[32m上报完成，结果 => 成功  ^_^  请尽快去网页端认领客户端 \033[0m");
+printLog("\033[32m上报完成，结果 => 成功  ^_^  ".($first_run ? '请尽快去网页端认领客户端' : '')." \033[0m");
 unset($ret);
 
 $counter = 0;

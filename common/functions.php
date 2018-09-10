@@ -2,18 +2,6 @@
 
 //!defined('IN_FRAMEWORK') && exit('No direct script access allowed');
 
-function get_union_id () {
-    $file_path = dirname(__FILE__).'/../union_id.txt';
-    if (!file_exists($file_path)) {
-        $union_id = md5(uniqid());
-        file_put_contents($file_path, $union_id);
-        return $union_id;
-    } else {
-        return file_get_contents($file_path);
-    }
-}
-
-
 /**
  * 通过curl方式请求url
  *
