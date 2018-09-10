@@ -58,11 +58,13 @@ function curl ($url, $method = 'get', $params = array(), $multi = false) {
 
 function cmd_dig ($dig_path, $address) {
     $data = array();
-    $address = parse_url($address);
-    if (!isset($address['host'])) {
-        return false;
+    if (substr($address, 0, 4) == 'http') {
+        $address = parse_url($address);
+        if (!isset($address['host'])) {
+            return false;
+        }
+        $address = $address['host'];
     }
-    $address = $address['host'];
     if (strcasecmp(PHP_OS, 'WINNT') === 0) {
 
     } elseif (strcasecmp(PHP_OS, 'Linux') === 0 || strcasecmp(PHP_OS, 'Darwin') === 0) {
@@ -98,11 +100,14 @@ function cmd_dig ($dig_path, $address) {
 
 function cmd_ping($bin_path, $address, $count = 5) {
     $data = array();
-    $address = parse_url($address);
-    if (!isset($address['host'])) {
-        return false;
+    if (substr($address, 0, 4) == 'http') {
+        $address = parse_url($address);
+        if (!isset($address['host'])) {
+            return false;
+        }
+        $address = $address['host'];
     }
-    $address = $address['host'];
+
     if (strcasecmp(PHP_OS, 'WINNT') === 0) {
         $pingresult = exec("{$bin_path} -n {$count} {$address}", $output, $status);
     } elseif (strcasecmp(PHP_OS, 'Linux') === 0) {

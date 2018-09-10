@@ -102,11 +102,11 @@ while (true) {
             $info = cmd_ping($config['ping_path'], $task['url']);
             if (false == $info) {
                 $info = [
-                    'min' => 0,
-                    'avg' => 0,
-                    'max' => 0,
-                    'mdev' => 0,
-                    'ttl' => 0
+                    'ping_min' => 0,
+                    'ping_avg' => 0,
+                    'ping_max' => 0,
+                    'ping_mdev' => 0,
+                    'ping_ttl' => 0
                 ];
                 printLog("|    \033[37mping 失败\033[0m");
             } else {
