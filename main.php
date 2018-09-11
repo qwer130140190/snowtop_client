@@ -62,9 +62,9 @@ if (!$ret) {
 printLog("\033[32m上报完成，结果 => 成功  ^_^  ".($first_run ? '请尽快去网页端认领客户端' : '')." \033[0m");
 unset($ret);
 
+smart_sleep();
 $counter = 0;
 while (true) {
-    smart_sleep();
     $ret = $ret_old = curl('http://jk.thesnowtop.com:7001/api/client/task.html', 'post', $data);
     $ret = json_decode($ret, true);
 
