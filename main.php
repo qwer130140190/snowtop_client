@@ -112,13 +112,13 @@ while (true) {
             printLog("|    正在检测 [ping]  {$task['url']}");
             $info = cmd_ping($config['ping_path'], $task['url']);
             if (false == $info) {
-                $info = [
+                $info = array(
                     'ping_min' => 0,
                     'ping_avg' => 0,
                     'ping_max' => 0,
                     'ping_mdev' => 0,
                     'ping_ttl' => 0
-                ];
+                );
                 printLog("|    \033[37mping 失败\033[0m");
             } else {
                 printLog("|    min :           {$info['ping_min']} ms");
