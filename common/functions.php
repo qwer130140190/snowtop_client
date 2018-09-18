@@ -161,21 +161,6 @@ function curl_info ($url, $timeout = 20, $cookie = array(), $referer = '', $user
     );
 }
 
-function smart_sleep () {
-    while (true) {
-        if ('00' == date('s')) {
-            break;
-        }
-    }
-    if ('00' == date('s')) {
-        return true;
-    } else {
-        usleep(100000);
-        smart_sleep();
-    }
-
-}
-
 function PrintLog($log, $exit=false){
     if (is_array($log)) {
         foreach ($log as $v){
