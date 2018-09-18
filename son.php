@@ -9,7 +9,7 @@ ini_set('memory_limit','128M');
 
 $arg = $_SERVER['argv'];
 count($arg) != 3 && exit("使用方法：son.php <task> <union_id>\r\n");
-list($null, $task, $client_id, $union_id) = $arg;
+list($null, $task, $union_id) = $arg;
 $task = json_decode(base64_decode($task), true);
 
 echo "\r\n";

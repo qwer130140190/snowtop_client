@@ -64,28 +64,29 @@ unset($ret);
 $counter = 0;
 
 while (true) {
-    check_task(5);
+    check_task(1);
     $ret = $ret_old = curl('http://jk.thesnowtop.com:7001/api/client/task.html', 'post', $data);
     $ret = json_decode($ret, true);
 
     if (!is_array($ret)) {
         printLog("\033[37m获取任务返回错误！ (ㄒoㄒ) 返回：{$ret_old}\033[0m");
-        sleep(5);
+        sleep(10);
         continue;
     }
     if ($ret['code'] != 1) {
         printLog("\033[37m{$ret['msg']}\033[0m");
-        sleep(5);
+        sleep(10);
         continue;
     }
     $task_count = count($ret['data']['task_list']);
     printLog("获取到任务 {$task_count} 个");
     foreach ($ret['data']['task_list'] as $task) {
-        $cmd = "nohup {$config['php_path']} {$task} {$union_id} 1>out.txt 2>err.txt &";
-        //printLog($cmd);
+        $task = base64_encode(json_encode($task));
+        $cmd = "nohup {$config['php_path']} son.php {$task} {$union_id} 1>out.txt 2>err.txt &";
+        printLog($cmd);
         exec($cmd);
     }
-    sleep(5);
+    sleep(10);
 }
 
 
