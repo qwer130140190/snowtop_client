@@ -9,7 +9,7 @@ ini_set('memory_limit','128M');
 
 $arg = $_SERVER['argv'];
 count($arg) != 3 && exit("使用方法：son.php <task> <union_id>\r\n");
-list($null, $task, $union_id) = $arg;
+list($null, $task, $client_id, $union_id) = $arg;
 $task = json_decode(base64_decode($task), true);
 
 echo "\r\n";
@@ -61,9 +61,9 @@ if (0 == $task['type']) {
     }
 }
 $data = array(
-    'union_id' => $union_id,
-    'task_id'  => $task['task_id'],
-    'info'  => $info,
+    'union_id'  => $union_id,
+    'task_id'   => $task['task_id'],
+    'info'      => $info,
 );
 $ret = $ret_old = curl('http://jk.thesnowtop.com:7001/api/client/feedback.html', 'POST', $data);
 $ret = json_decode($ret, true);

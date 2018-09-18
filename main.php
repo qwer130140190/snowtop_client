@@ -62,6 +62,7 @@ if (!$ret) {
 printLog("\033[32m上报完成，结果 => 成功  ^_^  ".($first_run ? '请尽快去网页端认领客户端' : '')." \033[0m");
 unset($ret);
 $counter = 0;
+
 while (true) {
     check_task(5);
     $ret = $ret_old = curl('http://jk.thesnowtop.com:7001/api/client/task.html', 'post', $data);
@@ -69,20 +70,18 @@ while (true) {
 
     if (!is_array($ret)) {
         printLog("\033[37m获取任务返回错误！ (ㄒoㄒ) 返回：{$ret_old}\033[0m");
-        sleep(60);
+        sleep(5);
         continue;
     }
     if ($ret['code'] != 1) {
         printLog("\033[37m{$ret['msg']}\033[0m");
-        sleep(60);
+        sleep(5);
         continue;
     }
     $task_count = count($ret['data']['task_list']);
     printLog("获取到任务 {$task_count} 个");
     foreach ($ret['data']['task_list'] as $task) {
-        printLog(str_repeat('-', 60));
-        $task = base64_encode(json_encode($task));
-        $cmd = "nohup {$task} {$union_id} 1>out.txt 2>err.txt &";
+        $cmd = "nohup {$config['php_path']} {$task} {$union_id} 1>out.txt 2>err.txt &";
         //printLog($cmd);
         exec($cmd);
     }
