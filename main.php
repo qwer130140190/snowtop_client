@@ -83,7 +83,7 @@ while (true) {
         printLog(str_repeat('-', 60));
         $task = base64_encode(json_encode($task));
         $cmd = "nohup {$task} {$union_id} 1>out.txt 2>err.txt &";
-        printLog($cmd);
+        //printLog($cmd);
         exec($cmd);
     }
     sleep(5);
