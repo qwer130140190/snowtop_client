@@ -8,6 +8,9 @@ require_once 'common/functions.php';
 require_once 'class/crypt.class.php';
 set_time_limit(0);
 ini_set('memory_limit',$config['memory_limit']);
+if (!file_exists($config['php_path'])) {
+    printLog('PHP执行文件不能存在！', true);
+}
 
 if (!function_exists('exec')) {
     printLog('exec函数不可用，请修改php.ini打开exec权限！', true);
